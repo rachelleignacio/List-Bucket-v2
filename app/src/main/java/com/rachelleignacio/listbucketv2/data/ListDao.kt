@@ -23,8 +23,8 @@ interface ListDao {
     fun getAll(): Flow<List<ListEntity>>
 
     @Transaction
-    @Query("SELECT * FROM lists")
-    fun getListWithItems(): Flow<List<ListWithItems>>
+    @Query("SELECT * FROM lists WHERE id = :id")
+    fun getListWithItems(id: Long): Flow<ListWithItems>
 
     @Delete
     suspend fun delete(list: ListEntity)
