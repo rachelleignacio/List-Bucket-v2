@@ -41,11 +41,21 @@ android {
         compose = true
     }
     composeOptions {
-        kotlinCompilerExtensionVersion = "1.5.1"
+        kotlinCompilerExtensionVersion = "1.5.14"
     }
     packaging {
         resources {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
+        }
+    }
+
+    // Set KSP sourceSet
+    applicationVariants.all {
+        val variantName = name
+        sourceSets {
+            getByName("main") {
+                java.srcDir(File("build/generated/ksp/$variantName/kotlin"))
+            }
         }
     }
 }
@@ -65,6 +75,11 @@ dependencies {
     implementation(libs.androidx.ui.tooling.preview)
 
     implementation(platform(libs.androidx.compose.bom))
+
+    implementation(platform(libs.koin.bom))
+    implementation(libs.koin.core)
+    implementation(libs.koin.annotations)
+    ksp(libs.koin.ksp.compiler)
 
     testImplementation(libs.junit)
 
